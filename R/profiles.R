@@ -31,5 +31,6 @@ pg_profiles <- function() {
       dbname = "ribbitr",
       user = "rolandknapp",
       schemas = c("public", "audio", "bay_area", "e_dna", "kira_pep", "microclimate_data", "survey_data", "audio")
+    )
   )
 }

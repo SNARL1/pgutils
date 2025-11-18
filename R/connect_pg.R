@@ -41,5 +41,3 @@ connect_to_pg <- function() {
   
   return(con)
 }
-
-}
