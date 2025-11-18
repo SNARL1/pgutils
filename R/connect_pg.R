@@ -1,3 +1,9 @@
+#' Connect to a PostgreSQL database
+#'
+#' Prompts the user for a database profile, password, and schema.
+#' Opens a connection using the connections pane and sets search_path.
+#' @return DBI connection object
+#' @export
 connect_to_pg <- function() {
   profiles <- pg_profiles()
   profile_names <- names(profiles)
@@ -9,7 +15,7 @@ connect_to_pg <- function() {
   }
   
   # User selects profile by number
-  profile_index <- as.integer(readline("Enter profile number: "))
+  profile_index <- as.integer(readline("Enter database profile number: "))
   if (is.na(profile_index) || !(profile_index %in% seq_along(profile_names))) {
     stop("Invalid profile number.")
   }
