@@ -1,32 +1,44 @@
-#' Connect to a PostgreSQL database
-#'
-#' Prompts the user for a database profile, password, and schema.
-#' Opens a connection using the connections pane and sets search_path.
-#' @return DBI connection object
-#' @export
 connect_to_pg <- function() {
   profiles <- pg_profiles()
-  message("Available profiles:")
-  print(names(profiles))
+  profile_names <- names(profiles)
   
-  profile_name <- readline("Enter profile: ")
-  if (!profile_name %in% names(profiles)) stop("Profile not found.")
+  # List database profiles with numbers
+  message("Available database profiles:")
+  for (i in seq_along(profile_names)) {
+    cat(i, ":", profile_names[i], "\n")
+  }
+  
+  # User selects profile by number
+  profile_index <- as.integer(readline("Enter profile number: "))
+  if (is.na(profile_index) || !(profile_index %in% seq_along(profile_names))) {
+    stop("Invalid profile number.")
+  }
+  
+  profile_name <- profile_names[profile_index]
   profile <- profiles[[profile_name]]
   
   pw <- rstudioapi::askForPassword(
     paste0("Password for PostgreSQL user '", profile$user, "':")
   )
   
-  # Show available schemas
+  # List available schemas with numbers
+  schemas <- profile$schemas
   message("Available schemas for this database:")
-  print(profile$schemas)
-  
-  schema <- readline("Enter schema (default = public): ")
-  if (schema == "") schema <- "public"
-  if (!schema %in% profile$schemas) {
-    warning("Schema not listed in available schemas. Proceeding anyway.")
+  for (i in seq_along(schemas)) {
+    cat(i, ":", schemas[i], "\n")
   }
   
+  # User selects schema by number
+  schema_index <- readline("Enter schema number (default = 1): ")
+  if (schema_index == "") schema_index <- 1
+  schema_index <- as.integer(schema_index)
+  if (is.na(schema_index) || !(schema_index %in% seq_along(schemas))) {
+    warning("Invalid schema number. Using default 'public'.")
+    schema_index <- 1
+  }
+  schema <- schemas[schema_index]
+  
+  # Open connection
   con <- connections::connection_open(
     drv = RPostgres::Postgres(),
     dbname   = profile$dbname,
