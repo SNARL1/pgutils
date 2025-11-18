@@ -1,24 +1,30 @@
-#' Disconnect a PostgreSQL connection
+#' Disconnect from PostgreSQL
 #'
-#' Safely closes a connection created with `connection_open()` from the connections package
-#' and removes the connection object from the environment.
+#' Works with both RStudio Connections pane connections
+#' and plain DBI::dbConnect() connections.
 #'
-#' @param con A connection object returned by `connect_to_pg()`
 #' @export
 disconnect_pg <- function(con) {
-  if (!inherits(con, "connection")) {
-    warning("Provided object is not a connection from the connections package.")
-    return(invisible(NULL))
+  
+  # Case 1 — connections package wrapper
+  if ("connection" %in% class(con)) {
+    try(connections::connection_close(con), silent = TRUE)
+    message("Disconnected (connections package).")
+    return(invisible(TRUE))
   }
   
-  connections::connection_close(con)
-  
-  # Remove the object from parent environment
-  con_name <- deparse(substitute(con))
-  if (exists(con_name, envir = parent.frame())) {
-    rm(list = con_name, envir = parent.frame())
+  # Case 2 — raw DBI connection (PqConnection)
+  if (inherits(con, "DBIConnection")) {
+    if (DBI::dbIsValid(con)) {
+      DBI::dbDisconnect(con)
+      message("Disconnected (DBI).")
+      return(invisible(TRUE))
+    } else {
+      warning("DBI connection is already invalid.")
+      return(invisible(FALSE))
+    }
   }
   
-  message("Connection closed and object removed: ", con_name)
-  invisible(NULL)
+  warning("Object is not a valid connection.")
+  invisible(FALSE)
 }
