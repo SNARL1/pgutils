@@ -2,19 +2,13 @@
 % Please edit documentation in R/disconnect_pg.R
 \name{disconnect_pg}
 \alias{disconnect_pg}
-\title{Disconnect a PostgreSQL connection}
+\title{Disconnect from PostgreSQL and remove connection object}
 \usage{
-disconnect_pg(con)
-
 disconnect_pg(con)
 }
 \arguments{
-\item{con}{A connection object returned by \code{connect_to_pg()}}
+\item{con}{A DBIConnection created by connect_pg()}
 }
 \description{
-Safely closes a connection created with \code{connection_open()} from the connections package
-and removes the connection object from the environment.
-
-Works with connections created using the RStudio connections pane
-(class "connConnection") and also raw DBI connections.
+Disconnect from PostgreSQL and remove connection object
 }
