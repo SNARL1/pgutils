@@ -7,6 +7,6 @@
 disconnect_pg(con)
 }
 \description{
-Works with both RStudio Connections pane connections
-and plain DBI::dbConnect() connections.
+Works with connections created using the RStudio connections pane
+(class "connConnection") and also raw DBI connections.
 }
