@@ -1,0 +1,18 @@
+Package: pgutils
+Type: Package
+Title: Utility Functions for PostgreSQL Connections
+Version: 0.1.0
+Authors@R: 
+    person("Roland", "Knapp", email = "you@example.com", role = c("aut", "cre"))
+Description: Internal utilities for connecting to PostgreSQL databases with centralized profiles.
+License: MIT
+Encoding: UTF-8
+LazyData: true
+Imports:
+    RPostgres,
+    DBI,
+    rstudioapi,
+    connections
+Roxygen: list(markdown = TRUE)
+RoxygenNote: 7.2.3
+
