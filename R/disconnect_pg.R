@@ -4,7 +4,7 @@
 #' @export
 disconnect_pg <- function(con) {
   # Close connection (safe even if already closed)
-  try(connection_close(con), silent = TRUE)
+  try(connections::connection_close(con), silent = TRUE)
   
   # Remove "con" from global environment if it exists
   if (exists("con", envir = .GlobalEnv)) {
