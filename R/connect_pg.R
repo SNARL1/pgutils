@@ -23,7 +23,7 @@ connect_to_pg <- function() {
   profile_name <- profile_names[profile_index]
   profile <- profiles[[profile_name]]
   
-  pw <- rstudioapi::askForPassword(
+  pw <- getPass::getPass(
     paste0("Password for PostgreSQL user '", profile$user, "':")
   )
   
