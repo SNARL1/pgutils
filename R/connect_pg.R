@@ -23,6 +23,10 @@ connect_to_pg <- function() {
   profile_name <- profile_names[profile_index]
   profile <- profiles[[profile_name]]
   
+  user <- getPass::getPass(
+    paste0("User name for PostgreSQL user '", profile$user, "':")
+  )
+  
   pw <- getPass::getPass(
     paste0("Password for PostgreSQL user '", profile$user, "':")
   )
@@ -50,7 +54,7 @@ connect_to_pg <- function() {
     dbname   = profile$dbname,
     host     = profile$host,
     port     = profile$port,
-    user     = profile$user,
+    user     = user,
     password = pw
   )
   
