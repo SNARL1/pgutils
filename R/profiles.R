@@ -17,9 +17,17 @@ pg_profiles <- function() {
       host = "localhost", port = 25432, dbname = "slip",
       schemas = c("public", "reference_collection", "surveys_samples")
     ),
+    amphibians_local = list(
+      host = "localhost", port = 5432, dbname = "amphibians",
+      schemas = c("public", "qpcr_fdw")
+    ),   
     amphibians_eri = list(
       host = "localhost", port = 25432, dbname = "amphibians",
       schemas = c("public", "qpcr_fdw")
+    ),
+    qpcr_local = list(
+      host = "localhost", port = 5432, dbname = "qpcr",
+      schemas = c("public")
     ),
     qpcr_eri = list(
       host = "localhost", port = 25432, dbname = "qpcr",
